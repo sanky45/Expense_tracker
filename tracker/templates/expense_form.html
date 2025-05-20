@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}{% if expense %}Edit Expense{% else %}Add Expense{% endif %}{% endblock %}
+{% block content %}
+    <h2 style="text-align:center; margin-bottom: 24px;">{% if expense %}Edit Expense{% else %}Add Expense{% endif %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="amount">Amount:</label>
+            <input type="number" step="0.01" id="amount" name="amount" value="{{ expense.amount|default:'' }}" required>
+        </div>
+        <div>
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" value="{{ expense.description|default:'' }}">
+        </div>
+        <div>
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if category == expense.category %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" value="{{ expense.date|default:'' }}" required>
+        </div>
+        <button type="submit">Save</button>
+    </form>
+{% endblock %}

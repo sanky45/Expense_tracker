@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <h2 style="text-align:center; margin-bottom: 24px;">Welcome, <span style="color:#6366f1;">{{ user.username }}</span>!</h2>
+    <h3 style="margin-bottom: 18px;">Your Expenses</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense.date }}</td>
+                    <td>{{ expense.category.name }}</td>
+                    <td>{{ expense.description }}</td>
+                    <td>₹{{ expense.amount }}</td>
+                    <td>
+                        <a href="{% url 'edit_expense' expense.id %}" style="color:#4f46e5; font-weight:600;">Edit</a>
+                        <a href="{% url 'delete_expense' expense.id %}" onclick="return confirm('Are you sure?')" style="color:#ef4444; font-weight:600; margin-left:8px;">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align:center; color:#888;">No expenses found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
